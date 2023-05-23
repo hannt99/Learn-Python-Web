@@ -1,3 +1,7 @@
-
+https://www.liquidweb.com/kb/how-to-setup-a-python-virtual-environment-on-windows-10/
 https://github.com/miguelgrinberg/flasky
 https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/
+
+pip install virtualenv 
+env\Scripts\activate
+flask --app hello run --debug
