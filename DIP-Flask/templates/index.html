@@ -4,26 +4,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Count Words in an Image</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-          <h3>Upload Files</h3>
-          <div class="drop_box">
-            <header>
-              <h4>Select File here</h4>
-            </header>
-            <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-            <input type="file" hidden accept=".doc,.docx,.pdf" id="fileID" style="display:none;">
-            <button class="btn">Choose File</button>
-          </div>
-      
-        </div>
+  <div class="container" id="drop_zone">
+    <div class="card">
+      <h2>Upload Files</h2>
+      <div class="box">
+        <header>
+          <h3>Drop Files here</h3>
+        </header>
+        <p>Files Supported: JPEG files, Portable Network Graphic (PNG), WebP , Windows bitmaps</p>
+        <button class="btn" id="btn_choose">Choose Files</button>
       </div>
+    </div>
+  </div>
+
+  <!-- <div class="form_container" style="display: none;">
+    <form action="/result" method="POST" enctype="multipart/form-data" id="my_form">
+      <div>
+          <h5 id="file_name"></h5>
+          <input  
+              type="file" 
+              hidden accept=".jpeg,.jpg,.jpe,.png,.webp,.bmp,.dib" 
+              name="file"
+              id="file_input" 
+              style="display:none;">
+          <input type="submit" value="Submit Files" id="btn_submit">
+      </div>
+    </form>  
+  </div> -->
+
+  <div class="form_container" style="display: none;">
+    <form action="/result" method="POST" enctype="multipart/form-data" id="my_form">
+      <div>
+          <h5 id="file_name"></h5>
+          <input  
+              type="file" 
+              accept=".jpeg,.jpg,.jpe,.png,.webp,.bmp,.dib" 
+              name="file"
+              id="file_input">
+          <input type="submit" value="Submit Files" id="btn_submit">
+      </div>
+    </form>  
+  </div>
+  
+  <!-- <div class="form_container" style="margin-bottom: 200px;">
+    <form action="/result" method="POST" enctype="multipart/form-data" id="my_form">
+      <div>
+          <h5 id="file_name"></h5>
+          <input  
+              type="file" 
+              accept=".jpeg,.jpg,.jpe,.png,.webp,.bmp,.dib" 
+              name="file"
+              id="file_input">
+          <input type="submit" value="Submit Files" id="btn_submit">
+      </div>
+    </form>  
+  </div> -->
+
 </body>
 </html>
