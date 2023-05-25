@@ -3,7 +3,37 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const box = document.getElementsByClassName("box")[0]; 
     const btn_choose = document.getElementById("btn_choose");
 
-    const form_data_DOM = document.getElementById('my_form');
+    // let form_data = `
+    //     <form action="/result" method="POST" enctype="multipart/form-data" id="my_form" style="display: none;">
+    //         <div>
+    //             <h5 id="file_name"></h5>
+    //             <input  
+    //                 type="file" 
+    //                 hidden accept=".jpeg,.jpg,.jpe,.png,.webp,.bmp,.dib" 
+    //                 name="file"
+    //                 id="file_input"
+    //                 style="display:none;">
+    //             <input type="submit" value="Submit Files" id="btn_submit">
+    //         </div>
+    //     </form>`
+
+    let form_data = `
+        <form action="/result" method="POST" enctype="multipart/form-data" id="my_form" style="display: none;">
+            <div>
+                <h5 id="file_name"></h5>
+                <input  
+                    type="file" 
+                    accept=".jpeg,.jpg,.jpe,.png,.webp,.bmp,.dib" 
+                    name="file"
+                    id="file_input">
+                <input type="submit" value="Submit Files" id="btn_submit">
+            </div>
+        </form>`
+
+    const parser = new DOMParser();
+    const form_data_dom = parser.parseFromString(form_data, 'text/html');
+    document.body.appendChild(form_data_dom.documentElement);
+    let form_data_DOM = document.getElementById('my_form');
     // console.log(form_data_DOM);
 
     const file_input = form_data_DOM.querySelector("input");
@@ -21,20 +51,30 @@ window.addEventListener("DOMContentLoaded", (event) => {
         displayUpload(e.target.files[0].name);    
     });
 
-    dropZone.addEventListener("drop", (event) => {
-        dropHandler(event);
+    function displayUpload(fileName) {
+        // console.log("debug displayUpload");
+        file_input_name.innerHTML = fileName;
+        form_data_DOM.style.display = "block";
+        console.log(form_data_DOM);
+
+        form_data_DOM = document.getElementById("my_form");
+        // console.log("debug form_data_DOM_after");
+        // console.log(form_data_DOM);
+
+        box.innerHTML = null;
+        box.appendChild(form_data_DOM);
+        
+        // console.log("why???");
+        // console.log(dropZone);
+    }
+
+    dropZone.addEventListener("drop", (e) => {
+        dropHandler(e);
     });
 
     dropZone.addEventListener("dragover", (e) => {
         dragOverHandler(e);
     });
-
-    function displayUpload(fileName) {
-        // console.log("debug displayUpload");
-        file_input_name.innerHTML = fileName;
-        box.innerHTML = form_data_DOM.outerHTML;
-        // console.log(dropZone);
-    }
 
     function dropHandler(event) {
         // console.log("File(s) dropped");

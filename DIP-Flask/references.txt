@@ -6,6 +6,5 @@ https://image.online-convert.com/convert/png-to-bmp
 pip install virtualenv 
 virtualenv env >< deactivate
 env\Scripts\activate
-pip install virtualenvwrapper-win
 {pip install flask}
-flask --app hello run --debug
+flask --app app run --debug

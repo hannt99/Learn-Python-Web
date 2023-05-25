@@ -13,7 +13,8 @@
   width: 100%;
   background-color: #fcfcfc;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  padding-top: 5%;
   justify-content: center;
 }
 
