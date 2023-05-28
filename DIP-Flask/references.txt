@@ -6,5 +6,10 @@ https://image.online-convert.com/convert/png-to-bmp
 pip install virtualenv 
 virtualenv env >< deactivate
 env\Scripts\activate
+
+pip install opencv-python
+pip install pytesseract
+
+
 {pip install flask}
 flask --app app run --debug

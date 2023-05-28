@@ -2,27 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Count Words in an Image</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-
+    <title>DIP Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
 </head>
 <body>
-  <div class="container" id="drop_zone">
-    <div class="card">
-      <h2>Upload Files</h2>
-      <div class="box">
-        <header>
-          <h3>Drop Files here</h3>
-        </header>
-        <p>Files Supported: JPEG files, Portable Network Graphic (PNG), WebP , Windows bitmaps</p>
-        <button class="btn" id="btn_choose">Choose Files</button>
-      </div>
+    <div class="main">
+        <div class="container">
+            <div class="tab-layout">
+                <div class="tab-1 active">Extract score</div>
+                <div class="tab-2">Word count</div>
+            </div>
+            <div class="content">
+                <h4 class="tab-1-title show">EXTRACT SCORE FROM IMAGE</h4>
+                <h4 class="tab-2-title">WORD COUNTER FROM IMAGE</h4>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="input-file-wrap">
+                        <div class="input-file">
+                            <div class="drop-zone">
+                                <div>
+                                    <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                                    <input id="file-input" type="file" name="file" class="drop-zone__input">
+                                </div>
+                            </div>
+                            <div class="close-btn">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <button id="btn-submit-1" class="show" type="submit"><i class="fa-solid fa-forward"></i> Extract score to excel file</button>
+                        <button id="btn-submit-2" type="submit"><i class="fa-solid fa-forward"></i> Count word</button>
+                    </div>
+                </form>
+                <div class="result-wrap">
+                    <h4><i class="fa-solid fa-thumbtack"></i> Result</h4>
+                    <div class="result">
+                        <div class="extract-file-wrap show">
+                            <div class="extract-file">
+                                <p>test.xlsx</p>
+                                <p><span>15.35 KB</span> <span class="download-icon"><i class="fa-solid fa-download"></i></span></p>
+                            </div>
+                        </div>
+                        <h4 class="count-result">Total word(s): {{ number_of_words }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
 </body>
 </html>

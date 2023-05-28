@@ -10,7 +10,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/result', methods=['POST'])
+@app.route('/', methods=['POST'])
 def count_words():
     number_of_words = -1;
     if request.method == 'POST':
@@ -32,7 +32,7 @@ def count_words():
 
     number_of_words = services.DIP.countWord(image_path);
 
-    return render_template('result.html', number_of_words=number_of_words)
+    return render_template('index.html', number_of_words=number_of_words)
 
 
 if __name__ == '__main__':    
