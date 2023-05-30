@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Resize the browser window to fire the <code>resize</code> event.</p>
+
+
+    <p>Window innerWidth: <span id="innerWidth"></span></p>
+    <p>Window innerHeight: <span id="innerHeight"></span></p>
+
+    <p>Window outerWidth: <span id="outerWidth"></span></p>
+    <p>Window outerHeight: <span id="outerHeight"></span></p>
+
+    <p>Window width: <span id="width"></span></p>
+    <p>Window height: <span id="height"></span></p>
+
+</body>
+<script>
+    const innerWidthOutput = document.querySelector("#innerWidth");
+    const innerHeightOutput = document.querySelector("#innerHeight");
+
+    const outerWidthOutput = document.querySelector("#outerWidth");
+    const outerHeightOutput = document.querySelector("#outerHeight");
+
+    const WidthOutput = document.querySelector("#width");
+    const HeightOutput = document.querySelector("#height");
+
+    function updateSize() {
+        innerWidthOutput.textContent = window.innerWidth;
+        innerHeightOutput.textContent = window.innerHeight;
+
+        outerWidthOutput.textContent = window.outerWidth;
+        outerHeightOutput.textContent = window.outerHeight;
+
+        WidthOutput.textContent = window.screen.width;
+        HeightOutput.textContent = window.screen.height;
+    }
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+</script>
+</html>
