@@ -12,19 +12,20 @@
     <div class="main">
         <div class="container">
             <div class="tab-layout">
-                <div class="tab-1 active">Extract score</div>
-                <div class="tab-2">Word count</div>
+                <div class="tab-1 active">Score Extractor</div>
+                <div class="tab-2">Word counter</div>
             </div>
             <div class="content">
                 <h4 class="tab-1-title show">EXTRACT SCORE FROM IMAGE</h4>
-                <h4 class="tab-2-title">WORD COUNTER FROM IMAGE</h4>
+                <h4 class="tab-2-title">COUNT WORD FROM IMAGE</h4>
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="input-file-wrap">
                         <div class="input-file">
                             <div class="drop-zone">
                                 <div>
-                                    <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                                    <span class="drop-zone__prompt">Drop image here or click to upload</span>
                                     <input id="file-input" type="file" name="file" class="drop-zone__input">
+                                    <input id= "currentTab" type="text" name="currentTab">
                                 </div>
                             </div>
                             <div class="close-btn">
@@ -53,6 +54,9 @@
         </div>
     </div>
 
+    <script>
+
+    </script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     
 </body>

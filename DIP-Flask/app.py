@@ -25,6 +25,7 @@ def count_words():
             return redirect(request.url)
         
         file.save('uploads/' + file.filename)
+        # print(request.form.get('currentTab'))
 
     # Additional processing or rendering logic
     path = 'uploads' + '\\' + file.filename; 

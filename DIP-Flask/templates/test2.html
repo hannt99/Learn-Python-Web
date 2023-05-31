@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style></style>
+  </head>
+  <body>
+    <div class="class1" id="main" data-test="stuff" nonStandard="1234"></div>
+  </body>
+  <script>
+    var div = document.getElementsByTagName("div")[0];
+
+    //you can look up specific attributes
+    var classAttr = div.attributes.getNamedItem("CLASS");
+    document.write(
+      "attributes.getNamedItem() Name: " +
+        classAttr.name +
+        " Value: " +
+        classAttr.value +
+        "<br>"
+    );
+
+    //you can enumerate all defined attributes
+    for (var i = 0; i < div.attributes.length; i++) {
+      var attr = div.attributes[i];
+      document.write(
+        "attributes[] Name: " + attr.name + " Value: " + attr.value + "<br>"
+      );
+    }
+
+    //create custom attribute
+    var customAttr = document.createAttribute("customTest");
+    customAttr.value = "567";
+    div.attributes.setNamedItem(customAttr);
+
+    //retreive custom attribute
+    customAttr = div.attributes.getNamedItem("customTest");
+    document.write(
+      "attributes.getNamedItem() Name: " +
+        customAttr.name +
+        " Value: " +
+        customAttr.value +
+        "<br>"
+    );
+  </script>
+</html>

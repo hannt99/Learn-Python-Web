@@ -20,8 +20,8 @@ body {
 }
 
 .container {
-    border-radius: 12px;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.9);
+    border-radius: 17px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.9);
 }
 
 .tab-layout {
@@ -50,20 +50,25 @@ body {
     border-top-right-radius: 12px;
 }
 
-.tab-1-title,
-.tab-2-title,
-.count-result,
-#btn-submit-1,
-#btn-submit-2 {
-    display: none;
-}
-
 .content {
     width: 420px;
     background-color: #ffffff;
     padding: 24px;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
+}
+
+.tab-1-title,
+.tab-2-title {
+    color: black !important;
+}
+
+.tab-1-title,
+.tab-2-title, 
+#btn-submit-1,
+#btn-submit-2,
+.count-result {
+    display: none;
 }
 
 .content h4 {
@@ -73,7 +78,7 @@ body {
 
 .content .input-file-wrap {
     background-color: #f1f1f1;
-    padding: 8px;
+    padding: 18px;
     margin-top: 16px;
 }
 
@@ -90,8 +95,8 @@ body {
 }
 
 .content .input-file-wrap .input-file .drop-zone {
-    max-width: 200px;
-    height: 200px;
+    max-width: 201px;
+    height: 201px;
     padding: 25px;
     display: flex;
     align-items: center;
@@ -111,7 +116,11 @@ body {
 .content .input-file-wrap .input-file .drop-zone .drop-zone__input {
     display: none;
 }
-  
+
+#currentTab {
+    display: none;
+}
+
 .drop-zone__thumb {
     width: 500px;
     height: 100%;
@@ -135,6 +144,16 @@ body {
     text-align: center;
 }
 
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20%;
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
 .content .btn-wrap {
     display: flex;
     justify-content: center;
@@ -147,7 +166,7 @@ body {
     background-color: #007bff;
     padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     outline: none;
     cursor: pointer;
 }
@@ -166,16 +185,6 @@ body {
 
 .content .result-wrap .result h4 {
     border-top: unset;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 20%;
-    color: red;
-    font-size: 20px;
-    cursor: pointer;
-    display: none;
 }
 
 .extract-file-wrap {
@@ -206,12 +215,13 @@ body {
     pointer-events: none;
 }
 
-.show {
-    display: block !important;
-}
-
 .active {
     color: #000000;
-    background-color: white;
+    /* background-color: white; */
+    background-color: red;
     box-shadow: unset !important;
+}
+
+.show {
+    display: block !important;
 }
