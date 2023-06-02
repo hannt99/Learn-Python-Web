@@ -2,17 +2,14 @@ window.addEventListener("DOMContentLoaded", function() {
     const tab1 = document.querySelector(".tab-1");
     const tab2 = document.querySelector(".tab-2");
 
-    var currentTab = this.document.getElementById("currentTab");
-    console.log(currentTab)
-    
     const tab1Title = document.querySelector(".tab-1-title");
     const tab2Title = document.querySelector(".tab-2-title");
     
-    const closeBtn = document.querySelector(".close-btn")
-    
     const dropZone = document.querySelector(".drop-zone");
     
-    const fileInput = document.querySelector("#file-input");
+    const fileInputImage = document.querySelector("#file-input-image");
+    
+    const closeBtn = document.querySelector(".close-btn")
     
     const btnSubmit1 = document.getElementById("btn-submit-1");
     const btnSubmit2 = document.getElementById("btn-submit-2");
@@ -20,13 +17,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const extractFileWrap = document.querySelector(".extract-file-wrap");
     const countResult = document.querySelector(".count-result");
 
-    // Create a new click event
-    // var clickEvent = new Event('click');
-
     tab1.addEventListener("click", function() {
-        currentTab.value = "tab1"
-        console.log(currentTab.value)
-
         tab1.classList.add("active");
         tab2.classList.remove("active");
     
@@ -41,9 +32,6 @@ window.addEventListener("DOMContentLoaded", function() {
     });
     
     tab2.addEventListener("click", function() {
-        currentTab.value = "tab2"
-        console.log(currentTab.value)
-
         tab2.classList.add("active");
         tab1.classList.remove("active");
 
@@ -57,22 +45,25 @@ window.addEventListener("DOMContentLoaded", function() {
         extractFileWrap.classList.remove("show")
     });
 
-    // Dispatch the event on the element
-    // tab2.dispatchEvent(clickEvent);
-
     document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
         const dropZoneElement = inputElement.closest(".drop-zone");
-    
         dropZoneElement.addEventListener("click", (e) => {
             inputElement.click();
         });
-      
+
         inputElement.addEventListener("change", (e) => {
-            if (inputElement.files.length) {
-                updateThumbnail(dropZoneElement, inputElement.files[0]);
+            const file = e.target.files[0];
+            if (file) {
+                dropZone.classList.add("disable")
+                closeBtn.classList.add("show")
             }
+            else {
+                dropZone.classList.remove("disable")
+                closeBtn.classList.remove("show")
+            }      
+            updateThumbnail(dropZoneElement, file);
         });
-      
+
         dropZoneElement.addEventListener("dragover", (e) => {
             e.preventDefault();
             dropZoneElement.classList.add("drop-zone--over");
@@ -89,7 +80,9 @@ window.addEventListener("DOMContentLoaded", function() {
         
             if (e.dataTransfer.files.length) {
                 inputElement.files = e.dataTransfer.files;
-                updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+
+                var event = new Event('change', { bubbles: true });
+                inputElement.dispatchEvent(event);
             }
         
             dropZoneElement.classList.remove("drop-zone--over");
@@ -108,7 +101,6 @@ window.addEventListener("DOMContentLoaded", function() {
         // First time - remove the prompt
         if (dropZoneElement.querySelector(".drop-zone__prompt")) {
             dropZoneElement.querySelector(".drop-zone__prompt").style.display = "none";
-    
         }
     
         // First time - there is no thumbnail element, so lets create it
@@ -119,11 +111,9 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     
         thumbnailElement.dataset.label = file.name;
-    
         // Show thumbnail for image files
         if (file.type.startsWith("image/")) {
             const reader = new FileReader();
-    
             reader.readAsDataURL(file);
             reader.onload = () => {
                 thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
@@ -133,34 +123,26 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     }
     
-    btnSubmit1.onclick = () => {
-
-        console.log("Successfully")
-    }
-    
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            dropZone.classList.add("disable")
-            closeBtn.classList.add("show")
-        }
-        else {
-            dropZone.classList.remove("disable")
-            closeBtn.classList.remove("show")
-        }
-    });
-    
     closeBtn.addEventListener("click", function() {
         const dropZoneThumb = document.querySelector(".drop-zone__thumb")
-        const dropZonePrompt = document.querySelector(".drop-zone__prompt")
-    
-        fileInput.value = ''
         dropZoneThumb.remove()
+        
+        const dropZonePrompt = document.querySelector(".drop-zone__prompt")
         dropZonePrompt.style.display = "block";
+    
+        fileInputImage.value = null;
         closeBtn.classList.remove("show")
         dropZone.classList.remove("disable")
     });
         
+    btnSubmit1.onclick = () => {
+        console.log("Submit Successfully")
+    }
+
+    btnSubmit2.onclick = () => {
+        console.log("Submit Successfully")
+    }
+
 });
 
 

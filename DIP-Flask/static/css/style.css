@@ -111,6 +111,7 @@ body {
   
 .drop-zone--over {
     border-style: solid;
+    /* border-color: red; */
 }
   
 .content .input-file-wrap .input-file .drop-zone .drop-zone__input {
@@ -224,4 +225,13 @@ body {
 
 .show {
     display: block !important;
+}
+
+.student-list-file-title {
+    margin-top: 10px;
+    color: black !important;
+}
+
+#file-input-dssv {
+    margin-top: 10px;
 }

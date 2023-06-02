@@ -52,20 +52,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
     });
 
     function displayUpload(fileName) {
-        // console.log("debug displayUpload");
         file_input_name.innerHTML = fileName;
         form_data_DOM.style.display = "block";
-        console.log(form_data_DOM);
 
         form_data_DOM = document.getElementById("my_form");
-        // console.log("debug form_data_DOM_after");
-        // console.log(form_data_DOM);
 
         box.innerHTML = null;
         box.appendChild(form_data_DOM);
-        
-        // console.log("why???");
-        // console.log(dropZone);
     }
 
     dropZone.addEventListener("drop", (e) => {
