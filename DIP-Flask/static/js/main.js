@@ -2,9 +2,8 @@ window.addEventListener("DOMContentLoaded", function() {
     const tab1 = document.querySelector(".tab-1");
     const tab2 = document.querySelector(".tab-2");
 
-    var activeTab = document.getElementById("activeTab");
-    
     let activeTabRender = document.querySelectorAll(".activeTabRender")[0];
+    var activeTab = document.getElementById("activeTab");
 
     const tab1Title = document.querySelector(".tab-1-title");
     const tab2Title = document.querySelector(".tab-2-title");
@@ -55,7 +54,7 @@ window.addEventListener("DOMContentLoaded", function() {
         tab2Title.classList.add("show")
         tab1Title.classList.remove("show")
 
-        studentListInput.classList.add("hideElement")
+        studentListInput.classList.add("hide")
 
         btnSubmit2.classList.add("show")
         btnSubmit1.classList.remove("show")
@@ -74,13 +73,13 @@ window.addEventListener("DOMContentLoaded", function() {
             const file = e.target.files[0];
             if (file) {
                 dropZone.classList.add("disable")
+                updateThumbnail(dropZoneElement, file);
                 closeBtn.classList.add("show")
             }
             else {
                 dropZone.classList.remove("disable")
                 closeBtn.classList.remove("show")
             }      
-            updateThumbnail(dropZoneElement, file);
         });
 
         dropZoneElement.addEventListener("dragover", (e) => {
@@ -108,18 +107,14 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     });
       
-    /**
-     * Updates the thumbnail on a drop zone element.
-     *
-     * @param {HTMLElement} dropZoneElement
-     * @param {File} file
-     */
     function updateThumbnail(dropZoneElement, file) {
         let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
     
         // First time - remove the prompt
         if (dropZoneElement.querySelector(".drop-zone__prompt")) {
-            dropZoneElement.querySelector(".drop-zone__prompt").style.display = "none";
+            // dropZoneElement.querySelector(".drop-zone__prompt").style.display = "none";
+            dropZoneElement.querySelector(".drop-zone__prompt").classList.remove("show");
+            dropZoneElement.querySelector(".drop-zone__prompt").classList.add("hide");
         }
     
         // First time - there is no thumbnail element, so lets create it
@@ -147,11 +142,14 @@ window.addEventListener("DOMContentLoaded", function() {
         dropZoneThumb.remove()
         
         const dropZonePrompt = document.querySelector(".drop-zone__prompt")
-        dropZonePrompt.style.display = "block";
-    
-        fileInputImage.value = null;
+        // dropZonePrompt.style.display = "block";
+        dropZonePrompt.classList.remove("hide");
+        dropZonePrompt.classList.add("show");
+        
         closeBtn.classList.remove("show")
         dropZone.classList.remove("disable")
+        
+        fileInputImage.value = null;
     });
         
     btnSubmit1.onclick = () => {

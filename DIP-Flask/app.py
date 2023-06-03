@@ -16,7 +16,7 @@ def download_file():
 @app.route('/', methods=['GET', 'POST'])
 def count_words():
     fileName = "No file here";
-    fileSize = "0 KB";
+    fileSize = "0";
     number_of_words = 0;
 
     if request.method == 'GET':
@@ -38,23 +38,23 @@ def count_words():
         
         activeTab = request.form.get('activeTab')
         if activeTab == "tab1":
-            if 'file-dssv' not in request.files:
+            if 'file-student-list' not in request.files:
                 return redirect('/', code=302)
             
-            fileDSSV = request.files['file-dssv']
-            if  fileDSSV.filename == '':
+            fileStudentList = request.files['file-student-list']
+            if  fileStudentList.filename == '':
                 # No file selected
                 return redirect('/', code=302)
             
-            fileDSSV_path = os.path.join('uploads', 'files', fileDSSV.filename)
-            fileDSSV.save(fileDSSV_path)
+            fileStudentList_path = os.path.join('uploads', 'files', fileStudentList.filename)
+            fileStudentList.save(fileStudentList_path)
             
-            fileName, fileSize, filePath = services.scoreExtractor.extractScore(fileImage_path, fileDSSV_path);
+            fileName, fileSize, filePath = services.scoreExtractor.extractScore(fileImage_path, fileStudentList_path);
             
-            return render_template('index.html', activeTabRender=activeTab, number_of_words=number_of_words, fileName=fileName, fileSize=fileSize)  
+            return render_template('index.html', activeTabRender=activeTab, fileName=fileName, fileSize=fileSize, number_of_words=number_of_words)  
         if activeTab == "tab2":
             number_of_words = services.wordCounter.countWord(fileImage_path);
-            return render_template('index.html', activeTabRender=activeTab, number_of_words=number_of_words, fileName=fileName, fileSize=fileSize)
+            return render_template('index.html', activeTabRender=activeTab, fileName=fileName, fileSize=fileSize, number_of_words=number_of_words)
 
         return render_template('index.html',activeTabRender="tab1", fileName=fileName, fileSize=fileSize, number_of_words=number_of_words)
     

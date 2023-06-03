@@ -25,7 +25,7 @@
                             <div class="drop-zone">
                                 <div>
                                     <span class="drop-zone__prompt">Drop image here or click to upload</span>
-                                    <input id="file-input-image" type="file" name="file-image" class="drop-zone__input">
+                                    <input class="drop-zone__input" id="file-input-image" type="file" name="file-image" >
                                     <input id="activeTab" type="text" name="activeTab">
                                 </div>
                             </div>
@@ -35,9 +35,9 @@
                         </div>
                     </div>
                     <div class="student-list">
-                        <h4 class="student-list-file-title">Select student list file</h4>
-                        <div>
-                            <input id="file-input-dssv" type="file" name="file-dssv" accept=".csv,.xlsx">
+                        <h4 class="student-list-title">Select student list file</h4>
+                        <div style="background-color: rgb(230, 216, 200); padding-bottom: 10px;">
+                            <input id="file-input-student-list" type="file" accept=".csv,.xlsx" name="file-student-list">
                         </div>
                     </div>
                     <div class="btn-wrap">
@@ -48,8 +48,8 @@
                 <div class="result-wrap">
                     <h4><i class="fa-solid fa-thumbtack"></i> Result</h4>
                     <div class="result">
-                        <div class="extract-file-wrap show" id="download-region">
-                            <div class="extract-file">
+                        <div class="extract-file-wrap show">
+                            <div class="extract-file" id="download-region">
                                 <p id="fileName">{{ fileName }}</p>
                                 <p><span id="fileSize">{{ fileSize }} KB</span> <span class="download-icon"><i class="fa-solid fa-download"></i></span></p>
                             </div>
