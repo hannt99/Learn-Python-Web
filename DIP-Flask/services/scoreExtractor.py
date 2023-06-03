@@ -2,23 +2,9 @@ import os
 import numpy as np
 import cv2
 import operator
-import imutils
 import pytesseract
 import pandas as pd
-
-# Set the path to the Tesseract OCR executable (modify it according to your system)
-# pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
-    
-def displayImg(name, img, resize=False):
-    if resize:
-        img = cv2.resize(img, (800, 800)) # Resize image
-    cv2.imshow(name, img)
-    cv2.waitKey(0)
-    quit()
-
-def writeImg(name, img):
-    cv2.imwrite(name, img)
-    # quit()
+import math
 
 def pre_process_image(img, skip_dilate=False):
     """
@@ -130,31 +116,18 @@ def pre_process_cropped_image(img):
     kernel = np.ones((3,3), np.uint8)
 
     adaptive_th = cv2.adaptiveThreshold(proc.copy(), 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 11, 2)
-    # writeImg('adaptive_th.png', adaptive_th)
     # adaptive_th = cv2.adaptiveThreshold(proc.copy(), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
     adaptive_th = cv2.morphologyEx(adaptive_th, cv2.MORPH_OPEN, kernel)
-    # writeImg('adaptive_th_open.png', adaptive_th)
     
     adaptive_th = cv2.morphologyEx(adaptive_th, cv2.MORPH_CLOSE, kernel)
-    # writeImg('adaptive_th_open_close.png', adaptive_th)
-    # quit()
+    
     ret, global_th = cv2.threshold(proc.copy(), 127, 255, cv2.THRESH_BINARY_INV)
-    # writeImg('global_th.png', global_th)
     global_th = cv2.morphologyEx(global_th, cv2.MORPH_OPEN, kernel)
-    # writeImg('global_th.png_open.png', global_th)
     global_th = cv2.morphologyEx(global_th, cv2.MORPH_CLOSE, kernel)
-    # writeImg('global_th.png_open_close.png', global_th)
-    # quit()
 
     result = cv2.bitwise_or(adaptive_th, global_th)
-    # writeImg('bitwise_or.png', result)
     result = cv2.morphologyEx(result, cv2.MORPH_OPEN, kernel)
-    # writeImg('bitwise_or_open.png', result)
     result = cv2.morphologyEx(result, cv2.MORPH_CLOSE, kernel)
-    # writeImg('bitwise_or_open_close.png', result)
-    # quit()
-    
-    # result = cv2.dilate(result, kernel, iterations=1)
 
     return result
 
@@ -169,7 +142,7 @@ def getScore(lst):
         if (len(lst) == 1):
             return 'v';
         # elif (len(lst) >= 2):
-        #     return ? # must handle this error!
+        #     return ? # must handle this case!
     elif (len(lst) == 2):
         integer_part  = lst[0][0]
         integer_part_score = str(integer_part-1)    
@@ -202,14 +175,9 @@ def grade_transcript(img):
 
     # preprocess the cropped image
     processed = pre_process_cropped_image(gray)
-    # writeImg("pre_process_cropped_image", processed)
     
     h, w, c = img.shape
-    # print(f'h:{h}, w:{w}, c:{c}');
     number_of_students = int(h/88.05)
-    # print(f'number_of_students:{number_of_students}')
-    # quit()
-    
     drawn_img = img.copy()
     #1
     x, y, w, h = 17, 12, 30, 72;
@@ -331,57 +299,14 @@ def grade_transcript(img):
             non_zeros = count_non_zero_pixels(processed, x, y, w, h) #?
             non_zeros_list.append(non_zeros)
         # ...
-        pixels_greater_than_1000 = [(index, element) for index, element in enumerate(non_zeros_list) if element > 1000]
-        # print(pixels_greater_than_1000)
-        # pixels_greater_than_1000_sorted_list = sorted(pixels_greater_than_1000, key=lambda x: x[0], reverse=False)
-        # print(pixels_greater_than_1000_sorted_list)
-                
+        pixels_greater_than_1000 = [(index, element) for index, element in enumerate(non_zeros_list) if element > 1000]               
         integer_decimal =  getIntegerDecimal(pixels_greater_than_1000)
-       
-        # print(f'#{n}; {integer_decimal}')
         # ...
         score = getScore(integer_decimal)
         scores.append(score)
         y = y + 88;
-    # quit()
-    
-    # print(scores)
-    # for score in scores:
-    #     print(score)
-    # quit()
+
     return scores;
-
-def extractText(image, lan=''):
-    blur = cv2.GaussianBlur(image, (5, 5), 0)
-    
-    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    # _, threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    
-    # kernel = np.ones((3,3), np.uint8)
-
-    # threshold = cv2.erode(threshold, kernel)
-    # threshold = cv2.dilate(threshold, kernel)
-    
-    # threshold = cv2.morphologyEx(threshold, cv2.MORPH_OPEN, kernel)
-    # threshold = cv2.morphologyEx(threshold, cv2.MORPH_CLOSE, kernel)
-    
-    # displayImg('result', threshold)
-    
-    # Perform OCR on the preprocessed image
-    if lan == 'vie':
-        text = pytesseract.image_to_string(blur, lang=lan)
-    else:
-        text = pytesseract.image_to_string(blur)
-        
-    text = text.split()
-    
-    # print(text)
-    # quit()
-    return text  
-
-def mergeStudentInfo(student_info_id, student_info_name_1st, student_info_name_2nd):
-    return None
 
 def writeToExcelFile(data_list, filename, column_name='0'):
     if column_name == '0':
@@ -406,49 +331,33 @@ def merge2ExcelFiles(file1, file2, column_name):
     return df1
 
 def exportResult(dssv_path, scores_path):    
-    column_name = 'Điểm'
-    dssv_scores = merge2ExcelFiles(dssv_path, scores_path, column_name)
-    dssv_scores_path = './code/EX01/dssv_scores.xlsx'
-    writeToExcelFile(dssv_scores, dssv_scores_path)
+    column_name = 'Điểm';
+    dssv_scores = merge2ExcelFiles(dssv_path, scores_path, column_name);
+    root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)));
+    fileName = "dssv_scores.xlsx";
+    dssv_scores_path= os.path.join(root_path, "static", "files", "dssv_scores.xlsx")
+    writeToExcelFile(dssv_scores, dssv_scores_path);
+    
+    fileSize = math.ceil(os.stat(dssv_scores_path).st_size / 1024); # KB
+    
+    return [fileName, fileSize, dssv_scores_path];
 
-def main():
-    image_name = 'bangdiem.png';
-    image_path = np.fromfile(os.path.join(os.path.dirname(os.path.abspath(__file__)), image_name), dtype=np.uint8)  
+def extractScore(image_path, dssv_path): 
+    image_path = np.fromfile(image_path, dtype=np.uint8)
+    
     transcript_board = extract_board(image_path)
     
     h, w, c = transcript_board.shape
-    
-    transcript_board_student_info = transcript_board[0:0+h, 0:0+600]
-    # writeImg('test', transcript_board_student_info)
-    
-    transcript_board_student_info_id = transcript_board_student_info[99:99+h, 56:56+126]
-    # writeImg('test', transcript_board_student_info_id)
-    # student_info_id = extractText(transcript_board_student_info_id)
-    
-    transcript_board_student_info_name = transcript_board_student_info[99:99+h, 177:177+(w-177)]
-    # writeImg('test', transcript_board_student_info_name)
-    
-    transcript_board_student_info_name_1st = transcript_board_student_info_name[0:0+h, 3:3+308]
-    # writeImg('test', transcript_board_student_info_name_1st)
-    # student_info_name_1st = extractText(transcript_board_student_info_name_1st, 'vie')
-    # student_info_name_1st = extractText(transcript_board_student_info_name_1st)
-    
-    h_name, w_name, c_name = transcript_board_student_info_name.shape
-    transcript_board_student_info_name_2nd = transcript_board_student_info_name[0:0+h_name, 310:310+(w_name-310)]
-    # writeImg('test.png', transcript_board_student_info_name_2nd)
-    # student_info_name_2nd = extractText(transcript_board_student_info_name_2nd, 'vie')
-    # student_info_name_2nd = extractText(transcript_board_student_info_name_2nd)
-    
-    # dssv = mergeStudentInfo(student_info_id, student_info_name_1st, student_info_name_2nd)
-    dssv_path = './code/EX01/dssv.xlsx'
-    # writeToExcelFile(dssv, dssv_path)
-    
+        
     transcript_board_bubble = transcript_board[95:95+h, 934:934+805]
-    # writeImg('test', transcript_board_bubble)
-    scores = grade_transcript(transcript_board_bubble)
-    scores_path = './code/EX01/scores.xlsx'
-    writeToExcelFile(scores, scores_path)
 
-    exportResult(dssv_path, scores_path)
+    scores = grade_transcript(transcript_board_bubble)
+    
+    root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    scores_path= os.path.join(root_path, "static", "files", "scores.xlsx")
+    
+    writeToExcelFile(scores, scores_path, "Điểm")
+
+    return exportResult(dssv_path, scores_path)
     
    

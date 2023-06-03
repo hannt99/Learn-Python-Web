@@ -17,10 +17,10 @@ def countWord(image_path):
     # Preprocessing
     gray = cv2.cvtColor(original.copy(), cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (5, 5), 0)
-    _, thres = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    _, threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
     # Perform OCR
-    text = pytesseract.image_to_string(thres)
+    text = pytesseract.image_to_string(threshold)
   
     # Count words
     word_count = len(text.split())

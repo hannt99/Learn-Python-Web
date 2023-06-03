@@ -14,6 +14,7 @@
             <div class="tab-layout">
                 <div class="tab-1 active">Score Extractor</div>
                 <div class="tab-2">Word counter</div>
+                <div class="activeTabRender">{{ activeTabRender }}</div>
             </div>
             <div class="content">
                 <h4 class="tab-1-title show">EXTRACT SCORE FROM IMAGE</h4>
@@ -25,6 +26,7 @@
                                 <div>
                                     <span class="drop-zone__prompt">Drop image here or click to upload</span>
                                     <input id="file-input-image" type="file" name="file-image" class="drop-zone__input">
+                                    <input id="activeTab" type="text" name="activeTab">
                                 </div>
                             </div>
                             <div class="close-btn">
@@ -32,9 +34,11 @@
                             </div>
                         </div>
                     </div>
-                    <h4 class="student-list-file-title">Select student list file</h4>
-                    <div>
-                        <input id="file-input-dssv" type="file" name="file-dssv" accept=".csv,.xlsx">
+                    <div class="student-list">
+                        <h4 class="student-list-file-title">Select student list file</h4>
+                        <div>
+                            <input id="file-input-dssv" type="file" name="file-dssv" accept=".csv,.xlsx">
+                        </div>
                     </div>
                     <div class="btn-wrap">
                         <button id="btn-submit-1" class="show" type="submit"><i class="fa-solid fa-forward"></i> Extract score to excel file</button>
@@ -44,10 +48,10 @@
                 <div class="result-wrap">
                     <h4><i class="fa-solid fa-thumbtack"></i> Result</h4>
                     <div class="result">
-                        <div class="extract-file-wrap show">
+                        <div class="extract-file-wrap show" id="download-region">
                             <div class="extract-file">
-                                <p>test.xlsx</p>
-                                <p><span>15.35 KB</span> <span class="download-icon"><i class="fa-solid fa-download"></i></span></p>
+                                <p id="fileName">{{ fileName }}</p>
+                                <p><span id="fileSize">{{ fileSize }} KB</span> <span class="download-icon"><i class="fa-solid fa-download"></i></span></p>
                             </div>
                         </div>
                         <h4 class="count-result">Total word(s): {{ number_of_words }}</h4>
